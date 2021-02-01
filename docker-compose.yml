@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  web:
+      container_name: container_walter
+      image: sernikov/apachenodephp7.4:1.1
+      ports:
+          - 800:80
+      volumes:
+          - ./:/var/www/html
+      stdin_open: true 
+      tty: true
+      restart: always
+      links:
+        - db:database
+      environment:
+        DB_HOST: database
+        DB_USER: admin
+        DB_PASSWORD: admin
+        DB_DATABASE: abelhasPlantas
+
+  db:
+    container_name: mysql_docker
+    image: mysql:5.7
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_USER: admin
+      MYSQL_DATABASE: abelhasPlantas
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8560:3306"
